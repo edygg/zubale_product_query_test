@@ -1,0 +1,13 @@
+services:
+    product_query:
+      build:
+        dockerfile: .docker-compose/product_query/Dockerfile
+        context: .
+      develop:
+        watch:
+          - path: .
+            action: sync
+            target: /app
+      ports:
+        - "8000:8000"
+      command: "fastapi dev --host 0.0.0.0 --port 8000 --reload main.py"
