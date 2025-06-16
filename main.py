@@ -4,9 +4,17 @@ from fastapi import FastAPI, Body
 from zubale_product_query.payloads.product_query import ProductQuery
 from zubale_product_query.serializers.models import ProductQuerySerializer, get_new_operation_id
 from zubale_product_query.tasks import process_product_query
+from zubale_product_query.rag.products import initialize_product_query_context
 
 
-app = FastAPI()
+def startup_event():
+    """Initialize the product query context on app startup"""
+    initialize_product_query_context()
+
+
+app = FastAPI(
+    on_startup=[startup_event]
+)
 
 
 @app.get("/health-check")
