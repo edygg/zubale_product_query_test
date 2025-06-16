@@ -3,7 +3,7 @@ ARG PYTHON_VERSION=3.12-slim-${DISTRO}
 ARG PYTHON_INTERPRETER=python
 
 # define an alias for the specfic python version used in this file.
-FROM ${PYTHON_INTERPRETER}:${PYTHON_VERSION} as python
+FROM ${PYTHON_INTERPRETER}:${PYTHON_VERSION} AS python
 
 # Python build stage
 FROM python AS python-build-stage

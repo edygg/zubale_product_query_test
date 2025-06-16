@@ -1,5 +1,8 @@
+volumes:
+  redis_data: {}
+
 services:
-    product_query:
+    product_query: &python
       build:
         dockerfile: .docker-compose/product_query/Dockerfile
         context: .
@@ -10,4 +13,24 @@ services:
             target: /app
       ports:
         - "8000:8000"
+      env_file:
+        - .docker-compose/.envs/.redis-envs
+        - .docker-compose/.envs/.config-envs
+      depends_on:
+        - redis
       command: "fastapi dev --host 0.0.0.0 --port 8000 --reload main.py"
+
+    products_worker:
+      <<: *python
+      ports: []
+      develop:
+        watch:
+          - path: .
+            action: sync+restart
+            target: /app
+      command: "celery -A zubale_product_query.tasks worker --concurrency 2 --loglevel=INFO"
+
+    redis:
+      image: "redis:8.0-alpine"
+      volumes:
+        - "redis_data:/data"
