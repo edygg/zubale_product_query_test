@@ -25,7 +25,7 @@ def test_product_query_endpoint_works_correctly():
     # Mock the process_product_query.delay function to avoid actual processing
     with patch("main.process_product_query.delay") as mock_process:
         # Send a POST request with the valid payload
-        response = client.post("/", json=payload)
+        response = client.post("/query", json=payload)
 
         # Verify the response status code is 200
         assert response.status_code == 200
@@ -80,7 +80,7 @@ def test_product_query_endpoint_works_correctly():
 )
 def test_product_query_endpoint_handles_malformed_input(payload, expected_status_code, expected_error_type):
     """Test that the product query endpoint correctly handles malformed input."""
-    response = client.post("/", json=payload)
+    response = client.post("/query", json=payload)
 
     # Verify the response status code matches the expected status code
     assert response.status_code == expected_status_code

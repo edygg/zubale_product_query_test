@@ -23,7 +23,7 @@ async def health_check():
     return {"status": "ok"}
 
 
-@app.post("/")
+@app.post("/query")
 async def product_query(product_query: Annotated[ProductQuery, Body]):
     message: ProductQuerySerializer = ProductQuerySerializer(
         user_id=product_query.user_id,
