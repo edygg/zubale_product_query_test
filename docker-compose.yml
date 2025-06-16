@@ -34,3 +34,8 @@ services:
       image: "redis:8.0-alpine"
       volumes:
         - "redis_data:/data"
+
+    langflow:
+      image: "langflowai/langflow:1.4.3"
+      ports:
+        - "7860:7860"

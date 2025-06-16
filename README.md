@@ -31,7 +31,7 @@ docker compose up
 ```
 
 This will start the following services:
-- FastAPI application on port 8000
+- FastAPI application on port 8000 (accessible at http://localhost:8000)
 - Celery worker for processing tasks
 - Redis for message brokering
 
@@ -51,8 +51,39 @@ To modify these configurations, edit the corresponding files before starting the
 
 ### API Endpoints
 
+Once the application is running, you can access the API at http://localhost:8000 with the following endpoints:
+
 - `GET /health-check`: Check if the API is running
 - `POST /`: Submit a product query
+
+### Langflow Integration
+
+The project includes [Langflow](https://github.com/langflow-ai/langflow), a UI for LangChain, which provides a visual way to build and interact with agent workflows.
+
+#### Accessing Langflow
+
+When you run `docker compose up`, Langflow will be available at:
+```
+http://localhost:7860
+```
+
+#### Using the Workflow
+
+The project includes a pre-configured workflow with two agents:
+
+1. **Product Information Agent**: Specializes in retrieving and providing detailed information about products.
+2. **Customer Support Agent**: Handles customer inquiries and provides appropriate responses based on product information.
+
+To use the workflow:
+
+1. Open Langflow at http://localhost:7860
+2. Click on "Import" in the top right corner
+3. Select the file `langflow/Zubale Agents Test.json`
+4. Once imported, click on the workflow to open it
+5. Click the "Run" button to activate the workflow
+6. Use the chat interface to interact with the agents
+
+The workflow demonstrates how multiple agents can work together to provide comprehensive responses to product queries. The first agent retrieves product information, and the second agent uses that information to provide customer support.
 
 ## Running Tests
 
