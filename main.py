@@ -13,7 +13,8 @@ def startup_event():
 
 
 app = FastAPI(
-    on_startup=[startup_event]
+    title="Zubale Product Query API Test by Edilson Gonzalez",
+    on_startup=[startup_event],
 )
 
 

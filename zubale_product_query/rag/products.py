@@ -25,11 +25,12 @@ def get_top_k():
 def initialize_product_query_context():
     """
     Initialize the ChromaDB collection for product query context.
-    This function:
-    1. Gets or creates the ChromaDB collection
-    2. Deletes all existing documents in the collection
-    3. Reads all markdown files from the product_docs directory
-    4. Adds each file's content to the collection with appropriate IDs
+
+    This function prepares the vector database for product queries by:
+    1. Getting or creating the ChromaDB collection named 'product_query_context'
+    2. Deleting all existing documents in the collection
+    3. Reading all markdown files from the product_docs directory
+    4. Adding each file's content to the collection with appropriate IDs and metadata
     """
     # Initialize Chroma client using default embedding function
     client = chromadb.Client()
@@ -69,10 +70,23 @@ def initialize_product_query_context():
             metadatas=metadatas
         )
 
-    print(f"Indexed {len(documents)} product documents in ChromaDB collection 'product_query_context'")
-
 
 def retrieve_product_query_context(product_query_operation: ProductQuerySerializer) -> ProductQueryContext:
+    """
+    Retrieves relevant product documents based on a user query.
+
+    This function queries the ChromaDB collection 'product_query_context' with the
+    user's query text and returns the most relevant product documents.
+
+    Args:
+        product_query_operation: A ProductQuerySerializer object containing the user's query
+            and other operation details.
+
+    Returns:
+        ProductQueryContext: An object containing a list of relevant product documents
+            that match the user's query. The number of documents is determined by
+            the get_top_k() function.
+    """
     # Extract the user query
     query_text = product_query_operation.query
 
